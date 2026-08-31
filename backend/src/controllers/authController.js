@@ -18,6 +18,21 @@ export const signUp = async (req, res) => {
       });
     }
 
+    // validate username: 3-30 ký tự, chỉ chữ cái, số, dấu gạch dưới
+    const USERNAME_REGEX = /^[a-zA-Z0-9_]{3,30}$/;
+    if (!USERNAME_REGEX.test(username)) {
+      return res.status(400).json({
+        message: "Username chỉ được chứa chữ cái, số, dấu gạch dưới (3-30 ký tự)",
+      });
+    }
+
+    // validate password: 6-128 ký tự
+    if (password.length < 6 || password.length > 128) {
+      return res.status(400).json({
+        message: "Mật khẩu phải từ 6 đến 128 ký tự",
+      });
+    }
+
     // kiểm tra username hoặc email tồn tại chưa
     const duplicate = await User.findOne({ $or: [{ username }, { email }] });
     if (duplicate) {

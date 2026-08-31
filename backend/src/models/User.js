@@ -8,6 +8,9 @@ const userSchema = new mongoose.Schema(
       unique: true,
       trim: true,
       lowercase: true,
+      minlength: 3,
+      maxlength: 30,
+      match: /^[a-z0-9_]+$/, // sau lowercase
     },
     hashedPassword: {
       type: String,
